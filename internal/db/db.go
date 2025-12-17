@@ -12,7 +12,7 @@ import (
 func New() (*sql.DB, error) {
 	dsn := os.Getenv("DATABASE_URL")
 
-	 // 2) 環境変数が空なら、そもそも接続先が分からないのでエラーにする
+	 // 環境変数が空なら、そもそも接続先が分からないのでエラーにする
     if dsn == "" {
         return nil, fmt.Errorf("DATABASE_URL is not set")
     }
