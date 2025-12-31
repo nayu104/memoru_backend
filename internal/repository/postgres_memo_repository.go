@@ -16,14 +16,14 @@ func NewPostgresMemoRepository(db *sql.DB) *PostgresMemoRepository {
     return &PostgresMemoRepository{db: db}
 }
 
-func (r *PostgresMemoRepository) Create(ctx context.Context, memo *domain.Memo) error {
+func (repo *PostgresMemoRepository) Create(ctx context.Context, memo *domain.Memo) error {
     const query = `
     INSERT INTO "memo" (user_id, body, mood, created_at, updated_at)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING memo_id
     `
 
-    if err := r.db.QueryRowContext(ctx, query,
+    if err := repo.db.QueryRowContext(ctx, query,
         memo.UserID,
         memo.Body,
         memo.Mood,
@@ -35,6 +35,7 @@ func (r *PostgresMemoRepository) Create(ctx context.Context, memo *domain.Memo) 
     return nil
 }
 
+// ListByUserID: 指定されたユーザーIDのメモを取得する
 func (r *PostgresMemoRepository) ListByUserID(ctx context.Context, userID string) ([]domain.Memo, error) {
     const query = `
     SELECT memo_id, user_id, body, mood, created_at, updated_at
@@ -49,11 +50,13 @@ func (r *PostgresMemoRepository) ListByUserID(ctx context.Context, userID string
     }
     defer rows.Close()
 
+	// メモリ上にメモのリストを作る.0は要素が入っていないという。
     memos := make([]domain.Memo, 0)
 
     for rows.Next() {
         var memo domain.Memo
-
+        // Scan は、「データベースから取ってきた値を、Goの変数にコピーする機能」
+		// この err は、エラーチェック以外では使わないから、if文の中に閉じ込めてしまおう」 という意図がある。
         if err := rows.Scan(
             &memo.ID,
             &memo.UserID,
