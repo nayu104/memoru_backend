@@ -17,11 +17,11 @@ type MemoService struct {
 
 // NewMemoService は、MemoService（担当者）を新しく雇うための関数（コンストラクタ）です。
 // 引数で「DB担当者(repo)」を受け取り、それを装備した「Service担当者」を返します。
-func NewMemoService(repo repository.MemoRepository) *MemoService {
+func NewMemoService(dbRepo repository.MemoRepository) *MemoService {
 	// 構文: 「構造体のフィールド名: 入れる変数の名前」
 	// 左側の repo: MemoServiceが持っているポケットの名前
 	// 右側の repo: 引数で渡されてきた変数の名前
-	return &MemoService{repo: repo}
+	return &MemoService{repo: dbRepo}
 }
 
 // CreateMemo: メモを作成するメソッドです。
@@ -29,7 +29,7 @@ func NewMemoService(repo repository.MemoRepository) *MemoService {
 //	①誰の技？              ②入力データは？           ③出力データは？
 func (service *MemoService) CreateMemo(ctx context.Context, userID, body, mood string) (*domain.Memo, error) {
 	if body == "" {
-		return nil, errors.New("メモの内容は必須です😡")
+		return nil, errors.New("❌メモの内容は必須です😡")
 	}
 
 	// DBに入れる前に、プログラム側で現在時刻を決めます。
