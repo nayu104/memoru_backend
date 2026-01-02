@@ -1,4 +1,4 @@
-package service
+package memo_service
 
 import (
 	"context"
