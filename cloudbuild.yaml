@@ -15,7 +15,7 @@ steps:
       - 'deploy'
       - 'memoru' # サービス名
       - '--image'
-      - 'gcr.io/$PROJECT_ID/emotion-memo-api:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/memoru:$COMMIT_SHA'
       - '--region'
       - 'asia-northeast1'
       - '--allow-unauthenticated'
