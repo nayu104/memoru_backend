@@ -13,7 +13,7 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'emotion-memo-api' # サービス名
+      - 'memoru' # サービス名
       - '--image'
       - 'gcr.io/$PROJECT_ID/emotion-memo-api:$COMMIT_SHA'
       - '--region'
