@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	// PostgreSQLドライバ（これがないとDBに繋がりません）
 	_ "github.com/lib/pq"
@@ -17,7 +18,11 @@ import (
 func main() {
 	// 1. データベースに接続する
 	// ⚠️ "password" の部分は、あなたのPostgreSQLのパスワードに書き換えてください
-	connStr := "postgres://postgres:password@localhost:5432/emotion_memo?sslmode=disable"
+	connStr := os.Getenv("DATABASE_URL")
+	if connStr == "" {
+		// ローカル開発用のデフォルト値
+		connStr = "postgres://postgres:password@localhost:5432/emotion_memo?sslmode=disable"
+	}
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal("❌ DB接続設定のエラー:", err)
