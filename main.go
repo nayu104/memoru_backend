@@ -35,7 +35,9 @@ func main() {
 	memoRepo := repository.NewPostgresMemoRepository(db)
 
 	// ルール担当 (Service) を作る（DB担当を渡す）
-	memoService := memo_service.NewMemoService(memoRepo) // 窓口担当 (Handler) を作る（ルール担当を渡す）
+	memoService := memo_service.NewMemoService(memoRepo)
+
+	// 窓口担当 (Handler) を作る（ルール担当を渡す）
 	memoHandler := handler.NewMemoHandler(memoService)
 
 	// 3. URLと処理を紐付ける（ルーティング）
