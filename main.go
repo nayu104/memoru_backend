@@ -28,7 +28,7 @@ func main() {
 	if err := db.Ping(); err != nil {
 		log.Fatal("❌ DBに繋がりません:", err)
 	}
-	fmt.Println("✅ DB接続成功！")
+	fmt.Println("✅ DB接続成功")
 
 	// 2. 部品を組み立てる（依存性の注入）
 	// DB担当 (Repository) を作る
